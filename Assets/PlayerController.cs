@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,10 +10,16 @@ public class PlayerController : MonoBehaviour
 	public Rigidbody Rb;
     private int score = 0;
     public int health = 5;
+    public Text scoreText;
 
 	// Use this for initialization
 	void Start () {
 	}
+
+    void SetScoreText()
+    {
+        scoreText.text = "Score: " + score.ToString();
+    }
 
 	// Update is called once per frame
 	void FixedUpdate ()
@@ -37,11 +44,11 @@ public class PlayerController : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag("Pickup"))
+        if (other.gameObject.CompareTag("Pickup"))
         {
             other.gameObject.SetActive(false);
             score++;
-            Debug.Log("Score: " + score.ToString());
+            SetScoreText();
         }
         if (other.gameObject.CompareTag("Trap"))
         {
@@ -53,4 +60,5 @@ public class PlayerController : MonoBehaviour
             Debug.Log("You win!");
         }
     }
+
 }
