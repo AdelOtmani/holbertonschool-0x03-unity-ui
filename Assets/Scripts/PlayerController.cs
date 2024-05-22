@@ -10,11 +10,16 @@ public class PlayerController : MonoBehaviour {
 	public Rigidbody Rb;
     private int score = 0;
     public int health = 5;
+    public Text scoreText;
 
 	// Use this for initialization
 	void Start () {
 
 	}
+    void SetScoreText()
+    {
+        scoreText.text = "Score: " + score.ToString();
+    }
 
 	// Update is called once per frame
 	void FixedUpdate () {
@@ -48,7 +53,8 @@ public class PlayerController : MonoBehaviour {
         {
             other.gameObject.SetActive(false);
             score++;
-            Debug.Log("score:" + score);
+            //Debug.Log("score:" + score);
+            SetScoreText();
         }
         if (other.gameObject.CompareTag("Trap"))
         {
