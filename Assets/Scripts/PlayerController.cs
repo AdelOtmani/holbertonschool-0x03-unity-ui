@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour {
     public int health = 5;
     public Text scoreText;
     public Text healthText;
+    public Image winLoseBG;
+    public Text winLoseText;
 
 	// Use this for initialization
 	void Start () {
@@ -26,10 +28,19 @@ public class PlayerController : MonoBehaviour {
     {
         healthText.text = "Health: " + health.ToString();
     }
+    IEnumerator LoadScene(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        SceneManager.LoadScene(0);
+    }
 
 	// Update is called once per frame
 	void FixedUpdate () {
 
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            SceneManager.LoadScene(0);
+        }
         if (Input.GetKey("d"))
         {
             Rb.AddForce(speed * Time.deltaTime, 0, 0);
@@ -48,9 +59,12 @@ public class PlayerController : MonoBehaviour {
         }
         if (health == 0)
         {
-            Debug.Log("Game Over!");
-            health = 5;
-            SceneManager.LoadScene(0);
+            //Debug.Log("Game Over!");
+            winLoseBG.gameObject.SetActive(true);
+            winLoseText.color = Color.white;
+            winLoseBG.color = Color.red;
+            winLoseText.text = "Game Over!";
+            StartCoroutine(LoadScene(3));
         }
 	}
     void OnTriggerEnter(Collider other)
@@ -70,7 +84,11 @@ public class PlayerController : MonoBehaviour {
         }
         if (other.gameObject.CompareTag("Goal"))
         {
-            Debug.Log("You Win!");
+            winLoseBG.gameObject.SetActive(true);
+            winLoseText.color = Color.black;
+            winLoseBG.color = Color.green;
+            winLoseText.text = "You win!";
+            StartCoroutine(LoadScene(3));
         }
     }
 }
